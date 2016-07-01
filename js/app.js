@@ -24,12 +24,59 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+var Player = function() {
+    this.sprite = 'images/char-pink-girl.png';
+    // this.sprite = 'images/test.png';
+    // Set player start position
+    // Image blocks are 101 x 171 though only 101 x 101 are dispalyed on the screen except for bottom row.
+    this.x = 101 * 2;
+    this.y = 83 * 4;
+    this.maxX = 404;
+    this.minX = 0;
+    this.maxY = 83 * 5;
+    this.minY = 0;
+
+};
+// Updte the player's position
+Player.prototype.update = function(dt){
+
+};
+
+// Draw the player on the screen, required method for game
+Player.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+Player.prototype.handleInput = function(keycode) {
+    switch(keycode){
+        case 'left':
+            if(this.x - 101 >= this.minX ){this.x = this.x - 101};
+            break;
+        case 'right':
+            if(this.x + 101 <= this.maxX ){this.x = this.x + 101};
+            break;
+        case 'up':
+            if(this.y - 83 >= this.minY ){this.y = this.y - 83};
+            break;
+        case 'down':
+            if(this.y + 83 <= this.maxY ){this.y = this.y + 83};
+            break;
+
+    }
+};
 
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
+var countOfEnemies = 2;
+var allEnemies = [];
+for(var i = 0; i < countOfEnemies; i++){
+    allEnemies.push(new Enemy);
+};
+
+var player = new Player;
 
 
 // This listens for key presses and sends the keys to your
