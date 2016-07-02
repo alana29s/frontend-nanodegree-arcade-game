@@ -16,14 +16,14 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-
-        this.x = this.x + this.speed * dt;
-        // If Enemy moves off screen reset speed and row
-        if(this.x > ctx.canvas.width + 101){
-            this.x = -101;
-            this.speed = this.randomSpeed();
-            this.y = this.randomRow();
-        }
+    // make movement an integer
+    this.x = this.x + Math.floor(this.speed * dt);
+    // If Enemy moves off screen reset speed and row
+    if(this.x > ctx.canvas.width + 101){
+        this.x = -101;
+        this.speed = this.randomSpeed();
+        this.y = this.randomRow();
+    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -66,6 +66,7 @@ var Player = function() {
 // Updte the player's position
 Player.prototype.update = function(dt){
   //  console.log('dt: ' + dt);
+  player.checkCollisions();
 
 };
 
@@ -111,6 +112,14 @@ Player.prototype.handleInput = function(keycode) {
             break;
 
     }
+};
+
+Player.prototype.checkCollisions = function(
+    ){
+    console.log('Player: ' , player.x + ' ' + player.y);
+    for( var i = 0; i < allEnemies.length; i++){
+        console.log('Enemy ' + i + ' ' + allEnemies[i].x + ' ' + allEnemies[i].y );
+    };
 };
 
 
