@@ -18,22 +18,25 @@ Enemy.prototype.update = function(dt) {
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite), 0, 65, 110, 83, this.x, this.y, 100, 83);
 };
 
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function() {
+    //TODO: this is default char - add option to change to new char.
     this.sprite = 'images/char-pink-girl.png';
+    //TODO: Delete test.png before final project - full dark image for testing purposes of grid
     // this.sprite = 'images/test.png';
-    // Set player start position
-    // Image blocks are 101 x 171 though only 101 x 101 are dispalyed on the screen except for bottom row.
+    // Set player start position to middle of grass.
+    // Set max and min positions for player movement.
+    // Sprites are 101w x 171 h but drawn in overlay. Actual board squares for playing are 101w x 83h.
     this.x = 101 * 2;
-    this.y = 83 * 4;
+    this.y = 50 + (83 * 4); // 50 is th space from the top of the canvas to non-transparent part of the first row.
     this.maxX = 404;
     this.minX = 0;
-    this.maxY = 83 * 5;
+    this.maxY = 83 * 6;
     this.minY = 0;
 
 };
@@ -44,7 +47,27 @@ Player.prototype.update = function(dt){
 
 // Draw the player on the screen, required method for game
 Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    //Draw only selection of sprite to fit grid of 101 * 83
+    ctx.drawImage(Resources.get(this.sprite), 0, 60, 101, 83, this.x, this.y, 101, 83);
+
+    //TODO: Delete the grid before final project
+    //see grid for development
+    //draw row lines
+    for(var y = 50; y < 606; y=y+83){
+        ctx.strokeStyle = "red";
+        ctx.beginPath();
+        ctx.moveTo(0,y);
+        ctx.lineTo(505, y);
+        ctx.stroke();
+    };
+    //draw column lines
+        for(var x = 0; x < 606; x=x+101){
+        ctx.strokeStyle = "red";
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, 606);
+        ctx.stroke();
+    };
 };
 
 Player.prototype.handleInput = function(keycode) {
@@ -77,6 +100,7 @@ for(var i = 0; i < countOfEnemies; i++){
 };
 
 var player = new Player;
+
 
 
 // This listens for key presses and sends the keys to your
