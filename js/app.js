@@ -6,6 +6,8 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    //TODO: delete this test.png reference
+    // this.sprite = 'images/test.png';
 };
 
 // Update the enemy's position, required method for game
@@ -14,11 +16,32 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+
+        this.x = this.x + this.speed * dt;
+        // If Enemy moves off screen reset speed and row
+        if(this.x > ctx.canvas.width + 101){
+            this.x = -101;
+            this.speed = this.randomSpeed();
+            this.y = this.randomRow();
+        }
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), 0, 65, 110, 83, this.x, this.y, 100, 83);
+    ctx.drawImage(Resources.get(this.sprite), 0, 70, 101, 83, this.x, this.y, 101, 83);
+};
+
+Enemy.prototype.randomSpeed = function(){
+    // Random Integer example from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+    // Math.floor(Math.random() * (max - min)) + min;
+    var moveMultiplier = 50;
+    return (Math.floor(Math.random() * (6 - 3)) + 3) * moveMultiplier;
+};
+
+Enemy.prototype.randomRow = function(){
+    // Simplified version of Random integer see Enemy.prototype.randomSpeed
+    // 83 is height of playing field block and 50 is transparent height of first block
+    return (Math.floor(Math.random() * 3) + 1) * 83 + 50;
 };
 
 // Now write your own player class
@@ -42,6 +65,7 @@ var Player = function() {
 };
 // Updte the player's position
 Player.prototype.update = function(dt){
+  //  console.log('dt: ' + dt);
 
 };
 
@@ -68,6 +92,7 @@ Player.prototype.render = function() {
         ctx.lineTo(x, 606);
         ctx.stroke();
     };
+    //End draw grid.
 };
 
 Player.prototype.handleInput = function(keycode) {
@@ -93,10 +118,13 @@ Player.prototype.handleInput = function(keycode) {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-var countOfEnemies = 2;
+var countOfEnemies = 3;
 var allEnemies = [];
 for(var i = 0; i < countOfEnemies; i++){
     allEnemies.push(new Enemy);
+    allEnemies[i].x = -101; //Object starting position is offscreen
+    allEnemies[i].y = allEnemies[i].randomRow() ;
+    allEnemies[i].speed = allEnemies[i].randomSpeed();
 };
 
 var player = new Player;
