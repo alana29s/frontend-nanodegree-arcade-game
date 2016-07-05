@@ -159,6 +159,7 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
+    //alert('reset');
         // noop
     }
 
@@ -173,7 +174,7 @@ var Engine = (function(global) {
         'images/enemy-bug.png',
         'images/char-boy.png',
         'images/char-pink-girl.png',
-        'images/test.png'
+        'images/char-pink-girl-dead.png'
     ]);
     Resources.onReady(init);
 
