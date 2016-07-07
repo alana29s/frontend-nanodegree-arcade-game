@@ -1,3 +1,4 @@
+'use strict';
 // Enemies our player must avoid
 var Enemy = function () {
     // Variables applied to each of our instances go here,
@@ -63,7 +64,7 @@ var Player = function() {
 
 // Updte the player's position
 Player.prototype.update = function(dt){
-    player.checkCollisions();
+    this.checkCollisions();
 };
 
 Player.prototype.win = function(){
@@ -74,30 +75,30 @@ Player.prototype.win = function(){
 
     //clear message after 3 seconds and reset player position and status
     setTimeout(function(){
-            player.x = 202;
-            player.y = 382;
-            player.status = 'playing';
+            this.x = 202;
+            this.y = 382;
+            this.status = 'playing';
             ctx.clearRect( 0, 0, ctx.canvas.width, 50);
-            },
+            }.bind(this),
         3000);
 };
 
 Player.prototype.dead = function(){
     //Set player status to dead and draw dead message
-    player.status = 'dead';
+    this.status = 'dead';
     ctx.font = "48px serif";
     ctx.textAlign = "center";
     ctx.fillText("You Died!", ctx.canvas.width / 2, 40);
-    player.sprite = "images/char-pink-girl-dead.png";
+    this.sprite = "images/char-pink-girl-dead.png";
 
     //clear message after 3 seconds and reset player position
     setTimeout(function(){
-            player.x = 202;
-            player.y = 382;
-            player.sprite = "images/char-pink-girl.png";
-            player.status = 'playing';
+            this.x = 202;
+            this.y = 382;
+            this.sprite = "images/char-pink-girl.png";
+            this.status = 'playing';
             ctx.clearRect( 0, 0, ctx.canvas.width, 50);
-            },
+            }.bind(this),
         3000);
 };
 
@@ -108,14 +109,14 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), 0, 60, 101, 83, this.x, this.y, 101, 83);
 
     //Player messages
-    if(player.status == 'win'){
-        player.win();
+    if(this.status == 'win'){
+        this.win();
     }
 };
 
 Player.prototype.handleInput = function(keycode) {
     // Wrapping keycodes in this function keeps from moving dead or win char around board
-    if(player.status === 'playing'){
+    if(this.status === 'playing'){
         switch(keycode){
             case 'left':
                 if(this.x - 101 >= this.minX ){this.x = this.x - 101;}
@@ -136,18 +137,19 @@ Player.prototype.handleInput = function(keycode) {
 Player.prototype.checkCollisions = function(
     ){
     //first check if player has collided
-    for(var j = 0; j < allEnemies.length; j++){
-        if(player.x < allEnemies[j].x + 101 &&
-            player.x + 101 > allEnemies[j].x &&
-            player.y < allEnemies[j].y + 83 &&
-            player.y + 83 > allEnemies[j].y ){
-            player.dead();
+    var enemyCount = allEnemies.length;
+    for(var j = 0; j < enemyCount; j++){
+        if(this.x < allEnemies[j].x + 101 &&
+            this.x + 101 > allEnemies[j].x &&
+            this.y < allEnemies[j].y + 83 &&
+            this.y + 83 > allEnemies[j].y ){
+            this.dead();
         }
 }
 
     //if player has not died and reached the water
-    if(player.y === 50 && player.status === 'playing'){
-        player.status = 'win';
+    if(this.y === 50 && this.status === 'playing'){
+        this.status = 'win';
     }
 };
 
