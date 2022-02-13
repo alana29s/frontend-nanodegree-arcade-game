@@ -1,7 +1,7 @@
 frontend-nanodegree-arcade-game
 ===============================
 
-To play the game visit https://stonybrookweb.github.io/frontend-nanodegree-arcade-game/
+To play the game visit https://alana29s.github.io/frontend-nanodegree-arcade-game/
 
 Game play will start automatically.
 
